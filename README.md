@@ -4,33 +4,33 @@
 ## Table of Contents
 
 * [Simple web pages]
-** [HTML and CSS basics]
-** [JavaScript primitives, methods, and functions]
-** [jQuery]
-** [Branching and looping in JavaScript]
+* [HTML and CSS basics]
+* [JavaScript primitives, methods, and functions]
+* [jQuery]
+* [Branching and looping in JavaScript]
 * [Programming basics with JavaScript]
-** [Behavior-driven development]
-** [Object-oriented design]
+* [Behavior-driven development]
+* [Object-oriented design]
 * [Programming basics with Ruby]
-** [Ruby syntax and TDD]
-** [OO with Ruby]
+* [Ruby syntax and TDD]
+* [OO with Ruby]
 * [Databases](#databases)
-** [Database basics](#database-basics)
-*** [Database relations](#database-relations)
-*** [SQL basics](#sql-basics)
-*** [Using SQL with Ruby](#using-sql-with-ruby)
-*** [To do list with SQL](#to-do-list-with-sql)
-*** [Git](#git)
-*** [Join statements](#join-statements)
-** [Databases with Active Record](#databases-with-active-record)
-*** [Inheritance and modules](#inheritance-and-modules)
-*** [Set up a project using Active Record](#set-up-a-project-using-active-record)
-*** [Bundler](#bundler)
-*** [Active Record validations and callbacks](#active-record-validations-and-callbacks)
+* [Database basics](#database-basics)
+* [Database relations](#database-relations)
+* [SQL basics](#sql-basics)
+* [Using SQL with Ruby](#using-sql-with-ruby)
+* [To do list with SQL](#to-do-list-with-sql)
+* [Git](#git)
+* [Join statements](#join-statements)
+* [Databases with Active Record](#databases-with-active-record)
+* [Inheritance and modules](#inheritance-and-modules)
+* [Set up a project using Active Record](#set-up-a-project-using-active-record)
+* [Bundler](#bundler)
+* [Active Record validations and callbacks](#active-record-validations-and-callbacks)
 * [Web applications]
-** [Ruby on Rails with minimal magic]
-** [Conventional Rails]
-** [Rails with AJAX]
+* [Ruby on Rails with minimal magic]
+* [Conventional Rails]
+* [Rails with AJAX]
 
 
 ## Databases
