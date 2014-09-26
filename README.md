@@ -35,13 +35,13 @@
 
 ## Databases
 ###Database basics
-  ####Database relations:
+  ###Database relations:
   Three types of relationships:
   *One-to-many* (e.g., a course has many students, and a student belongs to one course - like Epicodus)
   *Many-to-many* (e.g., a course has many students, and a student has many courses - like college)
   *One-to-one* (a tutor who only serves a single client)
 
-  *SQL Designer website:* http://ondras.zarovi.cz/sql/demo/
+  [SQL Designer website](http://ondras.zarovi.cz/sql/demo/)
 
 ###SQL basics:
 Common SQL commands:
@@ -61,10 +61,10 @@ DROP DATABASE test_database;
 
 Common psql commands:
 
-List all databases: `\l`
-Connect to database: `\c database_name`
-List tables in current database: `\dt`
-List columns in a table: `\d table_name`
+* List all databases: `\l`
+* Connect to database: `\c database_name`
+* List tables in current database: `\dt`
+* List columns in a table: `\d table_name`
 
 Common column types:
 ```console
@@ -141,76 +141,76 @@ Remove methods all objects have: ex. `3.methods - Object.new.methods`
 Modules are collections of methods and constants that can be included in any class.
 
 ###Set up a project to use Active Record:
-Install Active Record: `$ gem install activerecord`
-Install Rake: `$ gem install rake`
-Install Active Record Migrations: `$ gem install active_record_migrations`
-Create a db folder in your project directory
-Create a file called Rakefile in your project directory and add this to it:
-      ```console
-      require ‘active_record_migrations’
-      ActiveRecordMigrations.load_tasks
-      ```
-Create a file in db called config.yml and add this to it:
-      ```console
-      development:
-        adapter: postgresql
-        database: project_name_development
-      test:
-        adapter: postgresql
-        database: project_name_test
-      ```
-  Common one-off database tasks:
-  Create your test and development databases: `$ rake db:create`
-  Drop your databases: `$ rake db:drop`
-  Create an empty migration: `$ rake db:new_migration name=descriptive_migration_name`
-  Run a migration: `$ rake db:migrate`
-  Roll back a mibration: `$ rake db:rollback`
-  Prepare your test database: `$ rake db:test:prepare` (might be depracated...)
+* Install Active Record: `$ gem install activerecord`
+* Install Rake: `$ gem install rake`
+* Install Active Record Migrations: `$ gem install active_record_migrations`
+* Create a db folder in your project directory
+* Create a file called Rakefile in your project directory and add this to it:
+```console
+require ‘active_record_migrations’
+ActiveRecordMigrations.load_tasks
+```
+* Create a file in db called config.yml and add this to it:
+```console
+development:
+  adapter: postgresql
+  database: project_name_development
+test:
+  adapter: postgresql
+  database: project_name_test
+```
+Common one-off database tasks:
+* Create your test and development databases: `$ rake db:create`
+* Drop your databases: `$ rake db:drop`
+* Create an empty migration: `$ rake db:new_migration name=descriptive_migration_name`
+* Run a migration: `$ rake db:migrate`
+* Roll back a mibration: `$ rake db:rollback`
+* Prepare your test database: `$ rake db:test:prepare` (might be depracated...)
 
-  Migration Guide
-  Here’s the [Ruby on Rails guide for Active Record Migrations](http://guides.rubyonrails.org/migrations.html) - it will help remind you of what is needed to update your schema in exactly the way you want it.
+Migration Guide
+Here’s the [Ruby on Rails guide for Active Record Migrations](http://guides.rubyonrails.org/migrations.html) - it will help remind you of what is needed to update your schema in exactly the way you want it.
 
-  And, the [Rails API documentation on migrations](http://api.rubyonrails.org/classes/ActiveRecord/Migration.html)
+And, the [Rails API documentation on migrations](http://api.rubyonrails.org/classes/ActiveRecord/Migration.html)
 
-  Active Record queries and associations
-  [Rails Guide on querying conditions](http://guides.rubyonrails.org/active_record_querying.html#conditions)
+Active Record queries and associations
+[Rails Guide on querying conditions](http://guides.rubyonrails.org/active_record_querying.html#conditions)
 
-  [Rails API documentation on query methods](http://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html)
+[Rails API documentation on query methods](http://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html)
 
-  [Rails Guide on Active Record associations](http://guides.rubyonrails.org/association_basics.html)
+[Rails Guide on Active Record associations](http://guides.rubyonrails.org/association_basics.html)
 
-  [Rails API documentation on associations](http://api.rubyonrails.org/classes/ActiveRecord/Associations/ClassMethods.html)
+[Rails API documentation on associations](http://api.rubyonrails.org/classes/ActiveRecord/Associations/ClassMethods.html)
 
 ###Bundler
-Run `$ bundle`, when you’ve got your Gemfile all set up with the necessary gems
-Run `$ gem regenerate_binstubs`, if you get an error about using the wrong version of a gem.
+* Run `$ bundle`, when you’ve got your Gemfile all set up with the necessary gems
+* Run `$ gem regenerate_binstubs`, if you get an error about using the wrong version of a gem.
 
 ###Active Record validations and callbacks
-ex. of tests for validations:
-    ```console
-    describe Task do
-      it { should validate_presence_of :name }
-      it { should ensure_length_of(:name).is_at_most(50) }
-    end
-    ```
-  ex. of how the model would look:
-    ```console
-    class Task < ActiveRecord::Base
-      validates :name, :presence => true, :length => { :maximum => 50 }
-    end
-    ```
-  ex. of callback:
-    ```console
-    class Task < ActiveRecord::Base
-      before_save :downcase_name
+* ex. of tests for validations:
+```console
+describe Task do
+  it { should validate_presence_of :name }
+  it { should ensure_length_of(:name).is_at_most(50) }
+end
+```
+* ex. of how the model would look:
+```console
+class Task < ActiveRecord::Base
+  validates :name, :presence => true, :length => { :maximum => 50 }
+end
+```
+* ex. of callback:
+```console
+class Task < ActiveRecord::Base
+  before_save :downcase_name
 
-    private
+private
 
-      def downcase_name
-        self.name = self.name.downcase
-      end
-    end
-    ```
+  def downcase_name
+    self.name = self.name.downcase
+  end
+end
+```
 [Rails Guide on validations](http://guides.rubyonrails.org/active_record_validations.html#exclusion)
 
 [Rails API documentation on validations](http://api.rubyonrails.org/classes/ActiveModel/Validations/ClassMethods.html)
@@ -220,45 +220,46 @@ ex. of tests for validations:
 [Rails API documentation on callbacks](http://api.rubyonrails.org/classes/ActiveRecord/Callbacks.html)
 
 ###Shoulda-matchers
-  It’s a gem that helps to make validations, and callbacks more condensed - here’s the
-[documentation](https://github.com/thoughtbot/shoulda-matchers) for it.
+It’s a gem that helps to make validations, and callbacks more condensed - here’s the [documentation](https://github.com/thoughtbot/shoulda-matchers) for it.
 
 ###Polymorphic Associations
 Here’s the [Rails Guide to polymorphism](http://guides.rubyonrails.org/association_basics.html#polymorphic-associations)
 
 ###Validates_timeliness
-This gem is a date and time validation plugin for ActiveRecord and Rails. It supports ORMs (Object Relational Mapper) and allows custom date/time formats - it doesn’t currently support much in terms of testing:
-https://github.com/adzap/validates_timeliness
+[This gem](https://github.com/adzap/validates_timeliness) is a date and time validation plugin for ActiveRecord and Rails. It supports ORMs (Object Relational Mapper) and allows custom date/time formats - it doesn’t currently support much in terms of testing.
 
 ###Textacular
-This gem exposes full text search capabilities from PostgreSQL:
-https://github.com/textacular/textacular
+[This gem](https://github.com/textacular/textacular) exposes full text search capabilities from PostgreSQL.
 
 ###Indexes for your database:
-Here’s a great article on the power of indexes and how it will change the way you use databases - check it out: http://robots.thoughtbot.com/a-grand-piano-for-your-violin
+Here’s a [great article](http://robots.thoughtbot.com/a-grand-piano-for-your-violin) on the power of indexes and how it will change the way you use databases.
 
-Cloning a repo from Github:
-Grab the link from the bottom right of the chosen Github page, and run $ git clone https://github.com/… (<- replace the url with the appropriate link)
-To load the current schema all at once (in case there’s loads of migrations in the project), run $ rake db:schema:load. It’s much faster and less error prone.
+###Cloning a repo from Github:
+Grab the link from the bottom right of the chosen Github page, and run
+```console
+$ git clone https://github.com/… (<- replace the url with the appropriate link)
+```
+To load the current schema all at once (in case there’s loads of migrations in the project), run `$ rake db:schema:load`. It’s much faster and less error prone.
 
-  DRY: Stands for Don’t Repeat Yourself
+**DRY:** Stands for Don’t Repeat Yourself
 
-  Scopes:
-This is similar to the WHERE statements from back in PostgreSQL days. Here’s two
-examples of workable scopes:
+**Scopes:**
+This is similar to the WHERE statements from back in PostgreSQL days. Here’s two examples of workable scopes:
 
-  ex. 1 - passing through an argument:
-  class Musician < ActiveRecord::Base
-    scope :find_by_instrument, -> (instrument) { where(instrument_id: instrument.id) }
-  end
+* ex. 1 - passing through an argument:
+```console
+class Musician < ActiveRecord::Base
+  scope :find_by_instrument, -> (instrument) { where(instrument_id: instrument.id) }
+end
+```
+* ex. 2 - no argument
+```console
+class Task < ActiveRecord::Base
+  scope :completed, -> { where(completed: true) }
+end
+```
 
-  ex. 2 - no argument
-  class Task < ActiveRecord::Base
-    scope :completed, -> { where(completed: true) }
-  end
-
-  Here’s more information on Scopes:
-http://guides.rubyonrails.org/active_record_querying.html#scopes
+Here’s [more information on Scopes](http://guides.rubyonrails.org/active_record_querying.html#scopes)
 
 WEB APPLICATIONS
 Ruby on Rails with minimal magic
