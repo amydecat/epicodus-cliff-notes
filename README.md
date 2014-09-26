@@ -17,8 +17,16 @@
 * [Databases](#databases)
 ** [Database basics](#database-basics)
 *** [Database relations](#database-relations)
-** [SQL basics](#sql-basics)
-** [Databases with Active Record]
+*** [SQL basics](#sql-basics)
+*** [Using SQL with Ruby](#using-sql-with-ruby)
+*** [To do list with SQL](#to-do-list-with-sql)
+*** [Git](#git)
+*** [Join statements](#join-statements)
+** [Databases with Active Record](#databases-with-active-record)
+*** [Inheritance and modules](#inheritance-and-modules)
+*** [Set up a project using Active Record](#set-up-a-project-using-active-record)
+*** [Bundler](#bundler)
+*** [Active Record validations and callbacks](#active-record-validations-and-callbacks)
 * [Web applications]
 ** [Ruby on Rails with minimal magic]
 ** [Conventional Rails]
@@ -177,7 +185,7 @@ Create a file in db called config.yml and add this to it:
 Run `$ bundle`, when you’ve got your Gemfile all set up with the necessary gems
 Run `$ gem regenerate_binstubs`, if you get an error about using the wrong version of a gem.
 
-Active Record validations and callbacks
+###Active Record validations and callbacks
 ex. of tests for validations:
     ```console
     describe Task do
@@ -203,34 +211,30 @@ ex. of tests for validations:
       end
     end
     ```
-Rails Guide on validations:
-http://guides.rubyonrails.org/active_record_validations.html#exclusion
+[Rails Guide on validations](http://guides.rubyonrails.org/active_record_validations.html#exclusion)
 
-Rails API documentation on validations:
-    http://api.rubyonrails.org/classes/ActiveModel/Validations/ClassMethods.html
+[Rails API documentation on validations](http://api.rubyonrails.org/classes/ActiveModel/Validations/ClassMethods.html)
 
-Rails Guide on callbacks:
-    http://guides.rubyonrails.org/active_record_callbacks.html
+[Rails Guide on callbacks](http://guides.rubyonrails.org/active_record_callbacks.html)
 
-Rails API documentation on callbacks:
-http://api.rubyonrails.org/classes/ActiveRecord/Callbacks.html
+[Rails API documentation on callbacks](http://api.rubyonrails.org/classes/ActiveRecord/Callbacks.html)
 
-  Shoulda-matchers
+###Shoulda-matchers
   It’s a gem that helps to make validations, and callbacks more condensed - here’s the
-documentation for it: https://github.com/thoughtbot/shoulda-matchers
+[documentation](https://github.com/thoughtbot/shoulda-matchers) for it.
 
-Polymorphic Associations
-Here’s the Rails Guide to polymorphism: http://guides.rubyonrails.org/association_basics.html#polymorphic-associations
+###Polymorphic Associations
+Here’s the [Rails Guide to polymorphism](http://guides.rubyonrails.org/association_basics.html#polymorphic-associations)
 
-Validates_timeliness
+###Validates_timeliness
 This gem is a date and time validation plugin for ActiveRecord and Rails. It supports ORMs (Object Relational Mapper) and allows custom date/time formats - it doesn’t currently support much in terms of testing:
 https://github.com/adzap/validates_timeliness
 
-Textacular
+###Textacular
 This gem exposes full text search capabilities from PostgreSQL:
 https://github.com/textacular/textacular
 
-Indexes for your database:
+###Indexes for your database:
 Here’s a great article on the power of indexes and how it will change the way you use databases - check it out: http://robots.thoughtbot.com/a-grand-piano-for-your-violin
 
 Cloning a repo from Github:
