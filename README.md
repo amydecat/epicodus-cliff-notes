@@ -16,7 +16,6 @@
 * [OO with Ruby]
 * [Databases](#databases)
 * [Database basics](#database-basics)
-* [Database relations](#database-relations)
 * [SQL basics](#sql-basics)
 * [Using SQL with Ruby](#using-sql-with-ruby)
 * [To do list with SQL](#to-do-list-with-sql)
@@ -27,15 +26,18 @@
 * [Set up a project using Active Record](#set-up-a-project-using-active-record)
 * [Bundler](#bundler)
 * [Active Record validations and callbacks](#active-record-validations-and-callbacks)
-* [Web applications]
-* [Ruby on Rails with minimal magic]
+* [Web applications](#web-applications)
+* [Ruby on Rails with minimal magic](#ruby-on-rails-with-minimal-magic)
+* [Rails setup, database, models](#rails-setup-database-models)
+* [Rails routing, controllers, views](#rails-routing-controllers-views)
+* [Better parameters](#better-parameters)
 * [Conventional Rails]
 * [Rails with AJAX]
 
 
 ## Databases
 ###Database basics
-  ###Database relations:
+  **Database relations:**
   Three types of relationships:
   *One-to-many* (e.g., a course has many students, and a student belongs to one course - like Epicodus)
   *Many-to-many* (e.g., a course has many students, and a student has many courses - like college)
@@ -103,18 +105,17 @@ results.each { |result| p result }
 results.each { |result| p result.class } #each result is a hash
 ```
 ###To do list with SQL
-If you find yourself using SQL without Active Record, then go here:
-http://www.learnhowtoprogram.com/lessons/to-do-list-with-sql
-Link to PostgreSQL documentation:
-http://www.postgresql.org/docs/9.2/static/queries-order.html
- CRUD: stands for Create, Read, Update, and Destroy
+If you find yourself using SQL without Active Record, then go [here](http://www.learnhowtoprogram.com/lessons/to-do-list-with-sql).
+Here's the link to [PostgreSQL documentation](http://www.postgresql.org/docs/9.2/static/queries-order.html)
 
-###Git:
+**CRUD:** stands for Create, Read, Update, and Destroy
+
+###Git
 Getting to know Git, getting to know all about Git - check out the first two chapters. http://teamtreehouse.com/library/git-basics
 
 Branching and merging information starts on the third chapter, appropriately called Branches.
 
-###Join Statements:
+###Join Statements
 Join statement (not a join table):
 ```console
 SELECT * FROM
@@ -122,7 +123,7 @@ animals JOIN trainers ON (animals.trainer_id = trainers.id)
 WHERE trainers.id = 1;
 ```
 
-3-table join:
+3-table join
 ```console
   select animals.* from
   trainers join lessons on (trainers.id = lessons.trainer_id)
@@ -167,7 +168,7 @@ Common one-off database tasks:
 * Roll back a mibration: `$ rake db:rollback`
 * Prepare your test database: `$ rake db:test:prepare` (might be depracated...)
 
-Migration Guide
+**Migration Guide:**
 Here’s the [Ruby on Rails guide for Active Record Migrations](http://guides.rubyonrails.org/migrations.html) - it will help remind you of what is needed to update your schema in exactly the way you want it.
 
 And, the [Rails API documentation on migrations](http://api.rubyonrails.org/classes/ActiveRecord/Migration.html)
@@ -261,26 +262,31 @@ end
 
 Here’s [more information on Scopes](http://guides.rubyonrails.org/active_record_querying.html#scopes)
 
-WEB APPLICATIONS
-Ruby on Rails with minimal magic
-  How the web works
-  HTTP: stands for Hypertext Transfer Protocol
-HTTP uses a client-server model, where a client sends a request, and a server provides a response. Web browsers are clients.
-A request includes a method (also called a verb), a path, headers, and a body:
-Methods indicate the the type of action.
-The path is the URL, like: http://www.epicodus.com/students.html.
-Headers include optional information, like format or authentication.
-The body includes information like the contents of a form.
-Common HTTP methods:
-GET retrieves information without changing anything on the server.
-POST creates something.
-PATCH or PUT updates.
-DELETE destroys.
-Responses include status, headers, and body.
-The status is a three-digit code that represents the outcome of the request.
-Headers might include content type or redirect location.
-The body includes the actual HTML, CSS, JavaScript, etc.
-Common statuses:
+##Web Applications
+###Ruby on Rails with minimal magic
+  **How the web works**
+
+* **HTTP:** stands for Hypertext Transfer Protocol
+* HTTP uses a client-server model, where a client sends a request, and a server provides a response. Web browsers are clients.
+* A request includes a method (also called a verb), a path, headers, and a body.
+* Methods indicate the the type of action.
+* The path is the URL, like:
+`http://www.epicodus.com/students.html`.
+* Headers include optional information, like format or authentication.
+* The body includes information like the contents of a form.
+
+**Common HTTP methods:**
+* **GET** retrieves information without changing anything on the server.
+* **POST** creates something.
+* **PATCH** or **PUT** updates.
+* **DELETE** destroys.
+* Responses include status, headers, and body.
+* The status is a three-digit code that represents the outcome of the request.
+* Headers might include content type or redirect location.
+* The body includes the actual HTML, CSS, JavaScript, etc.
+
+**Common statuses:**
+```console
 200 OK (successful)
 201 Created
 301 Moved Permanently
@@ -292,29 +298,32 @@ Common statuses:
 500 Internal Server Error
 502 Bad Gateway (the server sent the request to another server and got an invalid response)
 503 Service Unavailable (the server is overloaded or down for maintenance)
-Rails setup, database, models
-Rails uses the model-view-controller pattern:
-The router parses the request and passes it to a controller.
-Controllers tell the model to do some work and then render a view.
-Models embody the application logic, and can be plain Ruby objects or inherit from Active Record.
-Views are HTML with some Ruby sprinkled in.
-Create a file called .railsrc in your home directory and type -d postgresql -T.
-Make a new Rails app: $ rails new your_app_name
-Example of what your config/database.yml might look like:
+```
+###Rails setup, database, models
+* Rails uses the model-view-controller pattern:
+* The router parses the request and passes it to a controller.
+* Controllers tell the model to do some work and then render a view.
+* Models embody the application logic, and can be plain Ruby objects or inherit from Active Record.
+* Views are HTML with some Ruby sprinkled in.
+
+* Create a file called '.railsrc' in your home directory and type `-d postgresql -T`.
+* Make a new Rails app: `$ rails new your_app_name`
+* Example of what your config/database.yml might look like:
+```console
 development:
    adapter: postgresql
     database: wikipages_development
 test:
     adapter: postgresql
     database: wikipages_test
-  To create a new migrations, run: $ rails g migration your_migration_name
-  To Set up RSpec, run: $ rails generate rspec:install
-  To get an IRB shell with the Rails development environment loaded, including gems
-and models, run: $ rails console
+```
+* To create a new migrations, run: `$ rails g migration your_migration_name`
+* To Set up RSpec, run: `$ rails generate rspec:install`
+* To get an IRB shell with the Rails development environment loaded, including gems and models, run: `$ rails console`
 
-Comprehensive Gemfile Example (please remember to look up gems if you don’t
-know what they do):
+**Comprehensive Gemfile Example** (please remember to look up gems if you don’t know what they do):
 
+```console
 source 'https://rubygems.org'
 
 gem 'rails'
@@ -325,11 +334,11 @@ gem 'coffee-rails'
 gem 'jquery-rails'
 gem 'turbolinks'
 gem 'jquery-turbolinks'
-gem ‘bcrypt’, ‘~> 3.1.5’
-gem ‘bootstrap-sass’, ‘~> 3.2.0’
-gem ‘autoprefixer-rails’
-gem ‘devise’
-gem ‘simple_form’
+gem 'bcrypt', '~> 3.1.5'
+gem 'bootstrap-sass', '~> 3.2.0'
+gem 'autoprefixer-rails'
+gem 'devise'
+gem 'simple_form'
 
 group :development do
     gem 'better_errors'
@@ -339,28 +348,29 @@ end
 
 group :test, :development do
     gem 'rspec-rails'
-gem 'pry'
-gem 'launchy’
-gem 'rest_client’
-gem 'dotenv-rails’
+    gem 'pry'
+    gem 'launchy’
+    gem 'rest_client’
+    gem 'dotenv-rails’
 end
 
 group :test do
-  gem 'shoulda-matchers'
-gem 'factory_girl_rails’
-gem 'capybara’
-gem 'webmock’
+    gem 'shoulda-matchers'
+    gem 'factory_girl_rails’
+    gem 'capybara’
+    gem 'webmock’
 end
 
 group :production do
-  gem 'rails_12factor’
+    gem 'rails_12factor’
 end
+```
+###Rails routing, controllers, views
+* To start the local Rails server, run: `$ rails server`, or `$ rails s`
+* View your app at http://localhost:3000
 
-Rails routing, controllers, views
-To start the local Rails server, run: $ rails server, or $rails s
-View your app at http://localhost:3000
-
-7 RESTful actions (stands for Representational State Transfer):
+**7 RESTful actions** (stands for Representational State Transfer):
+```console
 GET (index)
 GET (new)
 POST (create)
@@ -368,36 +378,40 @@ GET (show)
 GET (edit)
 PUT/PATCH (update)
 DELETE (destroy)
-
-  Your RESTful actions will live in your controllers. If you feel the need to create another
-method, your model is a good place for that!
+```
+Your RESTful actions will live in your controllers. If you feel the need to create another method, your model is a good place for that!
 
 What “resources :contacts” does in your routes.rb file:
+```console
 Wikipages::Application.routes.draw do
     match('contacts', {:via => :get, :to => 'contacts#index'})
     match('contacts/new', {:via => :get, :to => 'contacts#new'})
     match('contacts', {:via => :post, :to => 'contacts#create'})
-      match('contacts/:id', {:via => :get, :to => 'contacts#show'})
-      match('contacts/:id/edit', {:via => :get, :to => 'contacts#edit'})
+    match('contacts/:id', {:via => :get, :to => 'contacts#show'})
+    match('contacts/:id/edit', {:via => :get, :to => 'contacts#edit'})
     match('contacts/:id', {:via => [:patch, :put], :to => 'contacts#update'})
-      match('contacts/:id', {:via => :delete, :to => 'contacts#destroy'})
+    match('contacts/:id', {:via => :delete, :to => 'contacts#destroy'})
 end
-Better parameters
+```
+###Better parameters
 Changing this,:
-  @contact = Contact.new(:name => params[:name],
-                              :phone => params[:phone],
-                              :email => params[:email])
+```console
+@contact = Contact.new( :name => params[:name],
+                        :phone => params[:phone],
+                        :email => params[:email])
+```
 to this:
-  def new
-    @contact = Contact.new(contact_params)
-  end
-
-private
-  def contact_params
-        params.require(:contact).permit(:name, :phone, :email)
-      end
+```console
+    def new
+        @contact = Contact.new(contact_params)
     end
 
+private
+    def contact_params
+        params.require(:contact).permit(:name, :phone, :email)
+    end
+end
+```
   Heroku
   Watch the screencast on how to put your Rails sites online:
 https://www.codeschool.com/code_tv/heroku
