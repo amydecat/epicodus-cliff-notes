@@ -114,11 +114,15 @@ some_db = PG.connect({:dbname => 'some_db'})
 Run SQL:
 ```console
 some_db.exec("INSERT INTO contacts (name) VALUES ('michael');")
+```
 The results are a collection of hashes:
+```console
 results = address_book_db.exec("SELECT * FROM contacts;")
 results.each { |result| p result }
-results.each { |result| p result.class } #each result is a hash
+results.each { |result| p result.class }
 ```
+*each result is a hash*
+
 ###To do list with SQL
 If you find yourself using SQL without Active Record, then go [here](http://www.learnhowtoprogram.com/lessons/to-do-list-with-sql).
 Here's the link to [PostgreSQL documentation](http://www.postgresql.org/docs/9.2/static/queries-order.html)
@@ -149,7 +153,7 @@ WHERE trainers.id = 1;
 ###Inheritance and modules
 Find an object’s class: ex. `5.class`
 
-When one class inherits from another, it has all of the methods available to it from the parent class. Every class inherits from Object. Object inherits from BasicObject. BasicObject inherits from nil.
+When one class inherits from another, it has all of the methods available to it from the parent class. Every class inherits from `Object`. `Object` inherits from `BasicObject`. `BasicObject` inherits from *nil*.
 
 See the methods on an object: ex. `3.methods`
 Remove methods all objects have: ex. `3.methods - Object.new.methods`
@@ -161,13 +165,13 @@ Modules are collections of methods and constants that can be included in any cla
 * Install Rake: `$ gem install rake`
 * Install Active Record Migrations: `$ gem install active_record_migrations`
 * Create a db folder in your project directory
-* Create a file called Rakefile in your project directory and add this to it:
-```console
+* Create a file called `Rakefile` in your project directory and add this to it:
+```sh
 require ‘active_record_migrations’
 ActiveRecordMigrations.load_tasks
 ```
-* Create a file in db called config.yml and add this to it:
-```console
+* Create a file in db called `config.yml` and add this to it:
+```sh
 development:
   adapter: postgresql
   database: project_name_development
@@ -184,39 +188,41 @@ Common one-off database tasks:
 * Prepare your test database: `$ rake db:test:prepare` (might be depracated...)
 
 **Migration Guide:**
+
 Here’s the [Ruby on Rails guide for Active Record Migrations](http://guides.rubyonrails.org/migrations.html) - it will help remind you of what is needed to update your schema in exactly the way you want it.
 
 And, the [Rails API documentation on migrations](http://api.rubyonrails.org/classes/ActiveRecord/Migration.html)
 
-Active Record queries and associations
-[Rails Guide on querying conditions](http://guides.rubyonrails.org/active_record_querying.html#conditions)
+**Active Record queries and associations**
 
-[Rails API documentation on query methods](http://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html)
-
-[Rails Guide on Active Record associations](http://guides.rubyonrails.org/association_basics.html)
-
-[Rails API documentation on associations](http://api.rubyonrails.org/classes/ActiveRecord/Associations/ClassMethods.html)
+* [Rails Guide on querying conditions](http://guides.rubyonrails.org/active_record_querying.html#conditions)
+* [Rails API documentation on query methods](http://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html)
+* [Rails Guide on Active Record associations](http://guides.rubyonrails.org/association_basics.html)
+* [Rails API documentation on associations](http://api.rubyonrails.org/classes/ActiveRecord/Associations/ClassMethods.html)
 
 ###Bundler
 * Run `$ bundle`, when you’ve got your Gemfile all set up with the necessary gems
 * Run `$ gem regenerate_binstubs`, if you get an error about using the wrong version of a gem.
 
 ###Active Record validations and callbacks
-* ex. of tests for validations:
-```console
+
+Ex. of tests for validations:
+```sh
 describe Task do
   it { should validate_presence_of :name }
   it { should ensure_length_of(:name).is_at_most(50) }
 end
 ```
-* ex. of how the model would look:
-```console
+
+Ex. of how the model would look:
+```sh
 class Task < ActiveRecord::Base
   validates :name, :presence => true, :length => { :maximum => 50 }
 end
 ```
-* ex. of callback:
-```console
+
+Ex. of callback:
+```sh
 class Task < ActiveRecord::Base
   before_save :downcase_name
 
@@ -227,13 +233,10 @@ private
   end
 end
 ```
-[Rails Guide on validations](http://guides.rubyonrails.org/active_record_validations.html#exclusion)
-
-[Rails API documentation on validations](http://api.rubyonrails.org/classes/ActiveModel/Validations/ClassMethods.html)
-
-[Rails Guide on callbacks](http://guides.rubyonrails.org/active_record_callbacks.html)
-
-[Rails API documentation on callbacks](http://api.rubyonrails.org/classes/ActiveRecord/Callbacks.html)
+* [Rails Guide on validations](http://guides.rubyonrails.org/active_record_validations.html#exclusion)
+* [Rails API documentation on validations](http://api.rubyonrails.org/classes/ActiveModel/Validations/ClassMethods.html)
+* [Rails Guide on callbacks](http://guides.rubyonrails.org/active_record_callbacks.html)
+* [Rails API documentation on callbacks](http://api.rubyonrails.org/classes/ActiveRecord/Callbacks.html)
 
 ###Shoulda-matchers
 It’s a gem that helps to make validations, and callbacks more condensed - here’s the [documentation](https://github.com/thoughtbot/shoulda-matchers) for it.
@@ -262,20 +265,21 @@ To load the current schema all at once (in case there’s loads of migrations in
 **Scopes:**
 This is similar to the WHERE statements from back in PostgreSQL days. Here’s two examples of workable scopes:
 
-* ex. 1 - passing through an argument:
+Ex. 1 - passing through an argument:
 ```console
 class Musician < ActiveRecord::Base
   scope :find_by_instrument, -> (instrument) { where(instrument_id: instrument.id) }
 end
 ```
-* ex. 2 - no argument
+
+Ex. 2 - no argument to pass through:
 ```console
 class Task < ActiveRecord::Base
   scope :completed, -> { where(completed: true) }
 end
 ```
 
-Here’s [more information on Scopes](http://guides.rubyonrails.org/active_record_querying.html#scopes)
+Here’s more information on [Scopes](http://guides.rubyonrails.org/active_record_querying.html#scopes)
 
 ##Web Applications
 ###Ruby on Rails with minimal magic
@@ -295,6 +299,7 @@ Here’s [more information on Scopes](http://guides.rubyonrails.org/active_recor
 * **POST** creates something.
 * **PATCH** or **PUT** updates.
 * **DELETE** destroys.
+
 Responses include status, headers, and body. The status is a three-digit code that represents the outcome of the request. Headers might include content type or redirect location. The body includes the actual HTML, CSS, JavaScript, etc.
 
 **Common statuses:**
@@ -321,7 +326,7 @@ Responses include status, headers, and body. The status is a three-digit code th
 * Create a file called '.railsrc' in your home directory and type `-d postgresql -T`.
 * Make a new Rails app: `$ rails new your_app_name`
 * Example of what your config/database.yml might look like:
-```console
+```sh
 development:
    adapter: postgresql
     database: wikipages_development
@@ -335,7 +340,7 @@ test:
 
 **Comprehensive Gemfile Example** (please remember to look up gems if you don’t know what they do):
 
-```console
+```sh
 source 'https://rubygems.org'
 
 gem 'rails'
@@ -394,7 +399,7 @@ DELETE (destroy)
 Your RESTful actions will live in your controllers. If you feel the need to create another method, your model is a good place for that!
 
 What “resources :contacts” does in your routes.rb file:
-```console
+```sh
 Wikipages::Application.routes.draw do
     match('contacts', {:via => :get, :to => 'contacts#index'})
     match('contacts/new', {:via => :get, :to => 'contacts#new'})
@@ -407,13 +412,13 @@ end
 ```
 ###Better parameters
 Changing this,:
-```console
+```sh
 @contact = Contact.new( :name => params[:name],
                         :phone => params[:phone],
                         :email => params[:email])
 ```
 to this:
-```console
+```sh
     def new
         @contact = Contact.new(contact_params)
     end
@@ -454,6 +459,7 @@ Push your code to Heroku with: `$ git push heroku master`
 To migrate your database, run: `$ heroku run rake db:migrate`
 
 If you want to add a team member:
+
 `$ heroku sharing:add your_friends_email#their_address.com`
 
 If you get the error `Permission denied (publickey)`, run `$ rm ~/.ssh/*` to clear the SSH settings off the machine, then start the process again with adding a new pair of SSH keys.
@@ -582,7 +588,7 @@ Writing forms with helpers:
 
 **CSRF:** stands for Cross-Site Request Forgery. Here's how CSRF works:
 
-* You log into your bank account at www.bank.com and a cookie is placed on your computer to identify you.
+* You log into your bank account at www.yourbank.com and a cookie is placed on your computer to identify you.
 * You don't log out, and then you visit a chat board. The cookie remains on your computer.
 * On the chat board, a malicious user could then write some code to nab your cookie and wreak havoc with your bank account.
 
@@ -599,6 +605,7 @@ Check out [Treehouse’s blog on Strong Parameters](http://blog.teamtreehouse.co
 There’s a [RailsCast video on this too](http://railscasts.com/episodes/26-hackers-love-mass-assignment-revised) if you have access to an account.
 
 **SQL injection**
+
 [Read all about it!](http://guides.rubyonrails.org/security.html#sql-injection)
 
 **Ruby drop-down menu code**
@@ -606,6 +613,7 @@ There’s a [RailsCast video on this too](http://railscasts.com/episodes/26-hack
 Ex. `<%= f.collection_select :station_id, Station.all, :id, :name %>`
 
 **Ruby checkboxes**
+
 Here’s the [documentation](http://edgeapi.rubyonrails.org/classes/ActionView/Helpers/FormBuilder.html#method-i-collection_check_boxes)
 
 ###Capybara
@@ -683,11 +691,9 @@ If you are using Heroku to host your Paperclip app, be sure to look over [here](
 ###Getting started with AJAX
 I think the important thing to know about AJAX is that it’s a way of using javascript and jQuery to render partials rather than reloading the whole page, or loading a new view entirely. Here’s some resources that will hopefully help you along the way:
 
-[Treehouse on AJAX](http://teamtreehouse.com/library/ajax-basics/ajax-concepts/introducing-ajax)
-
-[RailsCast on AJAX](http://railscasts.com/episodes/136-jquery-ajax-revised)
-
-[A YouTube video on AJAX](https://www.youtube.com/watch?v=n6eE-nd3ci4)
+* [Treehouse on AJAX](http://teamtreehouse.com/library/ajax-basics/ajax-concepts/introducing-ajax)
+* [RailsCast on AJAX](http://railscasts.com/episodes/136-jquery-ajax-revised)
+* [A YouTube video on AJAX](https://www.youtube.com/watch?v=n6eE-nd3ci4)
 
 If you’d like to use Capybara testing with AJAX, be sure to check out [PhantomJS](http://phantomjs.org/) and [Poltergeist](https://github.com/teampoltergeist/poltergeist)
 
@@ -708,22 +714,22 @@ To install:
 Here’s an example of how you might use Factory Girl:
 ```sh
 FactoryGirl.define do
-    factory(:user) do
-        username('Jane')
-        email('Jane@doe.com')
-        password('password123')
-        password_confirmation('password123')
-    end
+  factory(:user) do
+    username('Jane')
+    email('Jane@doe.com')
+    password('password123')
+    password_confirmation('password123')
+  end
 end
 ```
 
 If you have authentication on your users, this will help you create a test users with minimal snags:
 ```sh
 FactoryGirl.define do
-    factory :user do |user|
-       sequence(:email) { |n| "user#{n}@factory.com" }
-        user.password{ "supersecretpassword" }
-   end
+  factory :user do |user|
+    sequence(:email) { |n| "user#{n}@factory.com" }
+    user.password{ "supersecretpassword" }
+  end
 end
 ```
 
