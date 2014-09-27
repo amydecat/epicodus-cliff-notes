@@ -31,8 +31,23 @@
 * [Rails setup, database, models](#rails-setup-database-models)
 * [Rails routing, controllers, views](#rails-routing-controllers-views)
 * [Better parameters](#better-parameters)
-* [Conventional Rails]
-* [Rails with AJAX]
+* [Heroku](#heroku)
+* [Redirecting](#redirecting)
+* [The layout](#the-layout)
+* [Flash messages](#flash messages)
+* [Partials](#partials)
+* [Sass, the asset pipeline, and Bootstrap](#sass-the-asset-pipeline-and-bootstrap)
+* [Conventional Rails](#conventional-rails)
+* [Helper links](#helper-links)
+* [Security basics](#security-basics)
+* [Capybara](#capybara)
+* [Authentication](#authentication)
+* [Polymorphism](#polymorphism)
+* [Paperclip](#paperclip)
+* [Rails with AJAX](#rails-with-ajax)
+* [Factory Girl](#factory-girl)
+* [Emails](#emails)
+* [Pagination](#pagination)
 
 
 ## Databases
@@ -280,10 +295,7 @@ Here’s [more information on Scopes](http://guides.rubyonrails.org/active_recor
 * **POST** creates something.
 * **PATCH** or **PUT** updates.
 * **DELETE** destroys.
-* Responses include status, headers, and body.
-* The status is a three-digit code that represents the outcome of the request.
-* Headers might include content type or redirect location.
-* The body includes the actual HTML, CSS, JavaScript, etc.
+Responses include status, headers, and body. The status is a three-digit code that represents the outcome of the request. Headers might include content type or redirect location. The body includes the actual HTML, CSS, JavaScript, etc.
 
 **Common statuses:**
 ```console
@@ -412,76 +424,89 @@ private
     end
 end
 ```
-  Heroku
-  Watch the screencast on how to put your Rails sites online:
-https://www.codeschool.com/code_tv/heroku
+###Heroku
+Watch the [screencast](https://www.codeschool.com/code_tv/heroku) on how to put your Rails sites online.
 
-Make sure heroku-toolbelt is installed ($ brew install heroku-toolbelt, if your on a Mac)
+Make sure heroku-toolbelt is installed
+```console
+$ brew install heroku-toolbelt (if your on a Mac)
+```
 
-Make sure your Gemfile includes the gem ‘rails_12factor’ in your :production group.
+Make sure your Gemfile includes the `gem 'rails_12factor'` in your :production group.
 
 When starting on a new computer, generate a new pair of SSH keys:
-  $ ssh-keygen -t rsa -C your_email@address.com
+```console
+$ ssh-keygen -t rsa -C your_email@address.com
+```
+Run:
+```console
+$ heroku login
+$ heroku keys:add
+```
+**Set up your Heroku app**
 
-Run:  $ heroku login
-  $ heroku keys:add
+If you haven’t created a Heroku app yet, run: `$ heroku create your_app_name`
 
-Set up your Heroku app
-If you haven’t created a Heroku app yet, run: $ heroku create your_app_name
-If you’ve already created a Heroku app, run: $ heroku git:remote -a your_app_name
-  Push your code to Heroku with: $ git push heroku master
-  To migrate your database, run: $ heroku run rake db:migrate
-  If you want to add a team member:
-$ heroku sharing:add your_friends_email#their_address.com
+If you’ve already created a Heroku app, run: `$ heroku git:remote -a your_app_name`
 
-If you get the error “Permission denied (publickey), run $ rm ~/.ssh/* to clear the SSH settings off the machine, then start the process again with adding a new pair of SSH keys.
-Redirecting
-redirect_to:
-should be used after successful create, update, and destroy;
-takes a URL as its argument;
-causes the browser to make an entirely new request.
+Push your code to Heroku with: `$ git push heroku master`
 
-render:
-should be used after unsuccessful creates and updates, so that the problematic information can be displayed on the screen to be fixed;
-takes a view as an argument;
-simply returns HTML as a response to the current request.
+To migrate your database, run: `$ heroku run rake db:migrate`
 
-The layout
-If you want to have every page list a different title, add this to your app/views/layouts/application.html.erb file: <title><%= yield(:title) %></title>
+If you want to add a team member:
+`$ heroku sharing:add your_friends_email#their_address.com`
 
+If you get the error `Permission denied (publickey)`, run `$ rm ~/.ssh/*` to clear the SSH settings off the machine, then start the process again with adding a new pair of SSH keys.
+
+###Redirecting
+`redirect_to:`
+should be used after a successful create, update, and destroy. It takes a URL as its argument and causes the browser to make an entirely new request.
+
+`render:`
+should be used after unsuccessful creates and updates, so that the problematic information can be displayed on the screen to be fixed. It takes a view as an argument and simply returns HTML as a response to the current request.
+
+###The layout
+If you want to have every page list a different title, add this to your `app/views/layouts/application.html.erb` file:
+```sh
+<title><%= yield(:title) %></title>
+```
 On your other view pages, add something like this:
+```sh
 <% content_for(:title, "New contact | Wikipages") %>
+```
 If your wanting your navbar to change depending on the view, try this:
+```sh
 <% content_for(:navbar) do %>
-<li><a href="/">Home</a></li>
-<li><a href="something/else">Something else</a></li>
-<li><a href="etc">Etc.</a></li>
+    <li><a href="/">Home</a></li>
+    <li><a href="something/else">Something else</a></li>
+    <li><a href="etc">Etc.</a></li>
 <% end %>
-
-Flash messages
+```
+###Flash messages
 You can add flash messages to your controller methods, like this:
-
+```sh
 class ContactsController < ApplicationController
-def create
-@contact = Contact.new(params[:contact])
-      if @contact.save
-flash[:notice] = "Your contact was added to Wikipages."
-        redirect_to("/contacts/#{@contact.id}")
-else
-        render('contacts/new.html.erb')
+    def create
+        @contact = Contact.new(params[:contact])
+        if @contact.save
+            flash[:notice] = "Your contact was added to Wikipages."
+            redirect_to("/contacts/#{@contact.id}")
+        else
+            render('contacts/new.html.erb')
+        end
+    end
 end
-end
-end
-
-  Just remember to add this to your app/views/layouts/application.html.erb file, in the
-<body>:
-
+```
+Just remember to add this to your app/views/layouts/application.html.erb file, in the <body>:
+```sh
 <%= flash[:alert] %>
 <%= flash[:notice] %>
-
-Partials
+```
+###Partials
 Partials allow you to render chunks of code that you would otherwise be repeating.
-Here’s the errors partial we’ve been using (make a file _errors.html.erb in your view/layouts folder):
+
+Here’s the errors partial we’ve been using (make a file `_errors.html.erb` in your `view/layouts folder`):
+```sh
 <% if object.errors.any? %>
       <h3>Please fix these errors:</h3>
       <ul>
@@ -490,19 +515,19 @@ Here’s the errors partial we’ve been using (make a file _errors.html.erb in 
       <% end %>
       </ul>
 <% end %>
+```
+This is how you would render the _errors.html.erb partial on your views page:
+```sh
+<%= render('layouts/errors', :object => @contact) %>
+```
 
-  This is how you would render the _errors.html.erb partial on your views page:
-    <%= render('layouts/errors', :object => @contact) %>
-  Sass, the asset pipeline, and Bootstrap
-Michael’s reference for this is more comprehensive than I can make cliff notes for, so
-here’s the link that that page, for quick look-up:
-http://www.learnhowtoprogram.com/lessons/sass-the-asset-pipeline-and-bootstrap
+###Sass, the asset pipeline, and Bootstrap
+Michael’s reference for this is more comprehensive than I can make cliff notes for, so here’s the [link that that page](http://www.learnhowtoprogram.com/lessons/sass-the-asset-pipeline-and-bootstrap), for quick look-up
 
-Conventional Rails
-  Magic methods
-  This is where we changed our routes from “match” to “resources. Here’s an example
-of what that looks like (config/routes.rb):
-
+##Conventional Rails
+###Magic methods
+This is where we changed our routes from `match` to `resources`. Here’s an example of what that looks like (`config/routes.rb`):
+```sh
 Wikipages::Application.routes.draw do
     resources :contacts do
         resources :phones, :only => [:new, :create]
@@ -510,30 +535,33 @@ Wikipages::Application.routes.draw do
 
     resources :phones, :except => [:new, :create]
 end
-
-To see your routes, run: $ rake routes
+```
+To see your routes, run: `$ rake routes`
 
 You can now use the route paths in your controller, here’s an example of that:
-
-   def create
-        @contact = Contact.new(params[:contact])
-        if @contact.save
-            flash[:notice] = "Contact created."
-            redirect_to contacts_path
-        else
-            render 'new'
-        end
-   end
-
+```sh
+def create
+    @contact = Contact.new(params[:contact])
+    if @contact.save
+        flash[:notice] = "Contact created."
+        redirect_to contacts_path
+    else
+        render 'new'
+    end
+end
+```
+###Helper links
 Writing links with helpers:
+```sh
 <%= link_to "New contact", new_contact_path, :class=> "btn btn-default" %>
 Deleting with helper links:
 <p><%= link_to "Delete", contact_path(@contact),
                          :data => {:confirm => "You sure?",
                                    :method => "delete"},
                          :class => "btn btn-danger" %></p>
-
+```
 Writing forms with helpers:
+```sh
 <%= form_for(@contact) do |f| %>
       <div class="form-group">
           <%= f.label :name %>
@@ -549,59 +577,71 @@ Writing forms with helpers:
      </div>
       <%= f.submit(:class => "btn btn-primary") %>
 <% end %>
+```
+###Security basics
 
-Security basics
-CSRF: stands for Cross-Site Request Forgery. Here's how CSRF works:
-You log into your bank account at www.bank.com and a cookie is placed on your computer to identify you.
-You don't log out, and then you visit a chat board. The cookie remains on your computer.
-On the chat board, a malicious user could then write some code to nab your cookie and wreak havoc with your bank account.
-To keep this from happening, Rails creates an autenticity token. “form_for” automatically adds tokens to your forms. HTML forms should include something like this:
+**CSRF:** stands for Cross-Site Request Forgery. Here's how CSRF works:
+
+* You log into your bank account at www.bank.com and a cookie is placed on your computer to identify you.
+* You don't log out, and then you visit a chat board. The cookie remains on your computer.
+* On the chat board, a malicious user could then write some code to nab your cookie and wreak havoc with your bank account.
+
+To keep this from happening, Rails creates an autenticity token. `form_for` automatically adds tokens to your forms. HTML forms should include something like this:
+```sh
 <input name="authenticity_token" type="hidden" value="c6j4CiHdGCJ5NcjWXvEQXGIsjCbrKQ4zpJYcyhCWn9E=" />
-Also, make sure that “protect_form_forgery with: :exception” is turned on in your ApplicationController.
-Mass assignment
-Check out Treehouse’s blog on Strong Parameters: http://blog.teamtreehouse.com/rails-4-strong-paremeters
+```
+Also, make sure that `protect_form_forgery with: :exception` is turned on in your `ApplicationController`.
 
-There’s a RailsCast video on this too, if you have access to an account:
-http://railscasts.com/episodes/26-hackers-love-mass-assignment-revised
+**Mass assignment**
 
-SQL injection
-Read all about it! (right here): http://guides.rubyonrails.org/security.html#sql-injection
+Check out [Treehouse’s blog on Strong Parameters](http://blog.teamtreehouse.com/rails-4-strong-paremeters)
 
-Ruby drop-down menu code
-Ex. <%= f.collection_select :station_id, Station.all, :id, :name %>
-Ruby checkboxes
-Here’s the documentation: http://edgeapi.rubyonrails.org/classes/ActionView/Helpers/FormBuilder.html#method-i-collection_check_boxes
-Capybara
+There’s a [RailsCast video on this too](http://railscasts.com/episodes/26-hackers-love-mass-assignment-revised) if you have access to an account.
+
+**SQL injection**
+[Read all about it!](http://guides.rubyonrails.org/security.html#sql-injection)
+
+**Ruby drop-down menu code**
+
+Ex. `<%= f.collection_select :station_id, Station.all, :id, :name %>`
+
+**Ruby checkboxes**
+Here’s the [documentation](http://edgeapi.rubyonrails.org/classes/ActionView/Helpers/FormBuilder.html#method-i-collection_check_boxes)
+
+###Capybara
 This is a testing tool, similar to mocha and chai, that allows a developer to test the flow of their application. Here’s how you can get started with Capybara:
 
-Install ‘capybara’ in your Gemfile, and require ‘capybara’ in your rails_helper
-Create a “features” folder in your spec folder
+* Install ‘capybara’ in your Gemfile
+* `require ‘capybara’` in your rails_helper
+* Create a “features” folder in your spec folder
 
-  Here’s the documentation on Capybara:
-Capybara README: https://github.com/jnicklas/capybara
-Using Capybara with RSPEC: https://github.com/jnicklas/capybara#using-capybara-with-rspec
+Here’s the documentation on Capybara:
+[Capybara README](https://github.com/jnicklas/capybara)
+[Using Capybara with RSPEC](https://github.com/jnicklas/capybara#using-capybara-with-rspec)
 
-  Remember to use the launch gem to make debugging in Capybara loads easier:
-  https://github.com/copiousfreetime/launchy
+Remember to use the [launch gem](https://github.com/copiousfreetime/launchy) to make debugging in Capybara a happier time.
 
-  Authentication
-You can create a user authentication from scratch, if you like. There’s a RailsCast video on this, if you have access to it: http://railscasts.com/episodes/250-authentication-from-scratch-revised
+###Authentication
+You can create a user authentication from scratch, if you like. There’s a [RailsCast video](http://railscasts.com/episodes/250-authentication-from-scratch-revised) on this, if you have access to it.
 
-Otherwise, you can create user authentication using the Devise gem: https://github.com/plataformatec/devise/
+Otherwise, you can create user authentication using the [Devise gem](https://github.com/plataformatec/devise/).
+
 Here’s how you would go about doing that:
-
+```console
 $ rails g devise:install
 $ rails g devise user
 $ rake db:migrate
 $ rails g devise:views
+```
+Add `gem 'devise'` to your Gemfile. Don’t forget to run `$ bundle` and restart your server.
 
-Add gem ‘devise’ to your Gemfile. Don’t forget to run $ bundle and restart your server.
-
-Add this to your config/environments/development.rb file:
+Add this to your `config/environments/development.rb` file:
+```sh
 config.action_mailer.default_url_options = { :host => 'localhost:3000' }
-
-  Here’s a good example of the links to sign in paths, to be added onto your
-layouts/application.html.erb file (either directly on the file or through a partial):
+```
+Here’s a good example of the links to sign in paths, to be added onto your
+`layouts/application.html.erb` file (either directly on the file or through a partial):
+```sh
 <% if user_signed_in? %>
   Logged in as <strong><%= current_user.email %></strong>
     <%= link_to 'Edit profile', edit_user_registration_path %> |
@@ -610,19 +650,20 @@ layouts/application.html.erb file (either directly on the file or through a part
     <%= link_to "Sign up", new_user_registration_path %> |
     <%= link_to "Login", new_user_session_path %>
 <% end %>
-
-Make sure your config/routes.rb looks something like this:
+```
+Make sure your `config/routes.rb` looks something like this:
+```sh
 devise_for :users, path_names: {sign_in: "login", sign_out: "logout"}
-
-  Add something similar like this to your class controller pages:
+```
+Add something similar like this to your class controller pages:
+```sh
 before_filter :authenticate_user!, except: [:index, :show]
-
-  Polymorphism
-  This is in reference to the whole commenting on comments thang in the Hacker News
-clone project. Here’s the documentation on polymorphic associations:
-http://guides.rubyonrails.org/association_basics.html#polymorphic-associations
+```
+###Polymorphism
+This is in reference to the whole commenting on comments thang in the Hacker News clone project. Here’s the [documentation on polymorphic associations](http://guides.rubyonrails.org/association_basics.html#polymorphic-associations)
 
 Your associations will look something like this:
+```sh
 class Comment < ActiveRecord::Base
     belongs_to :commentable, :polymorphic => true
     has_many :comments, :as => :commentable
@@ -631,83 +672,70 @@ end
 class Link < ActiveRecord::Base
     has_many :comments, :as => :commentable
 end
-Paperclip
-This is a popular gem for handling uploaded files to your app. Here’s the
-documentation on Paperclip:
-https://github.com/thoughtbot/paperclip
+```
+###Paperclip
+This is a [popular gem](https://github.com/thoughtbot/paperclip) for handling uploaded files to your app.
 
-If you are using Heroku to host your Paperclip app, be sure to look over here:
-https://devcenter.heroku.com/articles/paperclip-s3
-https://devcenter.heroku.com/articles/config-vars
-
-RAILS WITH AJAX
-  Getting started with AJAX
-  I think the important thing to know about AJAX is that it’s a way of using javascript and
-jQuery to render partials rather than reloading the whole page, or loading a new view
-entirely. Here’s some resources that will hopefully help you along the way:
-
-Treehouse: http://teamtreehouse.com/library/ajax-basics/ajax-concepts/introducing-ajax
-
-RailsCast:
-http://railscasts.com/episodes/136-jquery-ajax-revised
-
-YouTube:
-https://www.youtube.com/watch?v=n6eE-nd3ci4
-
-If you’d like to use Capybara testing with AJAX, be sure to check out PhantomJS and Poltergeist:
-
-http://phantomjs.org/
-https://github.com/teampoltergeist/poltergeist
-
-DatabaseCleaner is effective with overcoming the problem with threading and database transactions:
-https://github.com/DatabaseCleaner/database_cleaner#rspec-example
-
-Factory Girl: Is a library for setting up Ruby objects as test data. In otherwords, if you’d like to create a user object so you don’t have to repeat yourself in your tests, this tool is for you! (Helpful for creating other objects too - it’s not limited to just creating a user).
-https://github.com/thoughtbot/factory_girl_rails
-
-To install, run: $ gem install factory_girl
-Add to your Gemfile: gem ‘factory_girl_rails”
-Run: $ bundle install
-Remember to restart your server
-Create a file called “factories.rb” in your spec folder
-
-  Here’s an example of how you might use Factory Girl:
-
-  FactoryGirl.define do
-      factory(:user) do
-          username('Jane')
-          email('Jane@doe.com')
-          password('password123')
-          password_confirmation('password123')
-      end
-  end
+If you are using Heroku to host your Paperclip app, be sure to look over [here](https://devcenter.heroku.com/articles/paperclip-s3) and [here](https://devcenter.heroku.com/articles/config-vars).
 
 
-  If you have authentication on your users, this will help you create a test users with
-minimal snags:
+##Rails with AJAX
+###Getting started with AJAX
+I think the important thing to know about AJAX is that it’s a way of using javascript and jQuery to render partials rather than reloading the whole page, or loading a new view entirely. Here’s some resources that will hopefully help you along the way:
 
+[Treehouse on AJAX](http://teamtreehouse.com/library/ajax-basics/ajax-concepts/introducing-ajax)
+
+[RailsCast on AJAX](http://railscasts.com/episodes/136-jquery-ajax-revised)
+
+[A YouTube video on AJAX](https://www.youtube.com/watch?v=n6eE-nd3ci4)
+
+If you’d like to use Capybara testing with AJAX, be sure to check out [PhantomJS](http://phantomjs.org/) and [Poltergeist](https://github.com/teampoltergeist/poltergeist)
+
+[DatabaseCleaner](https://github.com/DatabaseCleaner/database_cleaner#rspec-example) is effective with overcoming the problem with threading and database transactions.
+
+###Factory Girl
+[Factory Girl](https://github.com/thoughtbot/factory_girl_rails) is a library for setting up Ruby objects as test data. In otherwords, if you’d like to create a user object so you don’t have to repeat yourself in your tests, this tool is for you! (Helpful for creating other objects too - it’s not limited to just creating a user).
+
+
+To install:
+
+* Run: `$ gem install factory_girl`
+* Add to your Gemfile: `gem ‘factory_girl_rails”`
+* Run: `$ bundle install`
+* Remember to restart your server
+* Create a file called `factories.rb` in your spec folder
+
+Here’s an example of how you might use Factory Girl:
+```sh
+FactoryGirl.define do
+    factory(:user) do
+        username('Jane')
+        email('Jane@doe.com')
+        password('password123')
+        password_confirmation('password123')
+    end
+end
+```
+
+If you have authentication on your users, this will help you create a test users with minimal snags:
+```sh
 FactoryGirl.define do
     factory :user do |user|
        sequence(:email) { |n| "user#{n}@factory.com" }
         user.password{ "supersecretpassword" }
    end
 end
+```
 
-Emails
-Rails has a built-in system for sending emails called Action Mailer. Here’s the Railscast video on the subject: http://railscasts.com/episodes/61-sending-email-revised
+###Emails
+Rails has a built-in system for sending emails called Action Mailer. Here’s the [Railscast video](http://railscasts.com/episodes/61-sending-email-revised) on the subject.
 
-You can use the letter_opener gem to see the emails pop up on a web page:
-https://github.com/ryanb/letter_opener
+You can use the [letter_opener gem](https://github.com/ryanb/letter_opener) to see the emails pop up on a web page.
 
-To send actual emails, Mailgun was recommended to us:
-http://www.mailgun.com/
-Here’s Heroku instructions for setting up Mailgun:
-https://devcenter.heroku.com/articles/mailgun
+To send actual emails, [Mailgun](http://www.mailgun.com/) was recommended to us. Here’s [Heroku instructions](https://devcenter.heroku.com/articles/mailgun) for setting up Mailgun.
 
-Here’s a helpful blog post on the subject of sending emails from the Model, rather than the Controller (a better practice):
-http://www.robbyonrails.com/articles/2009/11/16/sending-email-controllers-versus-models
+Here’s a [helpful blog post](http://www.robbyonrails.com/articles/2009/11/16/sending-email-controllers-versus-models) on the subject of sending emails from the Model, rather than the Controller (a better practice).
 
-Pagination
+###Pagination
 Kaminari is a recommended paginator for Rails 3 and 4 - check it out:
 https://github.com/amatsuda/kaminari
-
