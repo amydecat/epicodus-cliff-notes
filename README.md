@@ -52,11 +52,12 @@
 
 ## Databases
 ###Database basics
-  **Database relations:**
-  Three types of relationships:
-  * One-to-many* (e.g., a course has many students, and a student belongs to one course - like Epicodus)
-  * Many-to-many* (e.g., a course has many students, and a student has many courses - like college)
-  * One-to-one* (a tutor who only serves a single client)
+**Database relations:**
+
+Three types of relationships:
+* *One-to-many* (e.g., a course has many students, and a student belongs to one course - like Epicodus)
+* *Many-to-many* (e.g., a course has many students, and a student has many courses - like college)
+* *One-to-one* (a tutor who only serves a single client)
 
   [SQL Designer website](http://ondras.zarovi.cz/sql/demo/)
 
