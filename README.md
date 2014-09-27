@@ -145,10 +145,10 @@ WHERE trainers.id = 1;
 
 3-table join
 ```console
-  select animals.* from
-  trainers join lessons on (trainers.id = lessons.trainer_id)
-            join animals on (lessons.animal_id = animals.id)
-  where trainers.id = 1;
+select animals.* from
+trainers join lessons on (trainers.id = lessons.trainer_id)
+          join animals on (lessons.animal_id = animals.id)
+where trainers.id = 1;
 ```
 ##Databases with Active Record
 ###Inheritance and modules
@@ -323,10 +323,10 @@ Responses include status, headers, and body. The status is a three-digit code th
 * Controllers tell the model to do some work and then render a view.
 * Models embody the application logic, and can be plain Ruby objects or inherit from Active Record.
 * Views are HTML with some Ruby sprinkled in.
-
 * Create a file called '.railsrc' in your home directory and type `-d postgresql -T`.
 * Make a new Rails app: `$ rails new your_app_name`
 * Example of what your config/database.yml might look like:
+
 ```sh
 development:
    adapter: postgresql
@@ -367,20 +367,20 @@ end
 group :test, :development do
     gem 'rspec-rails'
     gem 'pry'
-    gem 'launchy’
-    gem 'rest_client’
-    gem 'dotenv-rails’
+    gem 'launchy'
+    gem 'rest_client'
+    gem 'dotenv-rails'
 end
 
 group :test do
     gem 'shoulda-matchers'
-    gem 'factory_girl_rails’
-    gem 'capybara’
-    gem 'webmock’
+    gem 'factory_girl_rails'
+    gem 'capybara'
+    gem 'webmock'
 end
 
 group :production do
-    gem 'rails_12factor’
+    gem 'rails_12factor'
 end
 ```
 ###Rails routing, controllers, views
@@ -399,7 +399,7 @@ DELETE (destroy)
 ```
 Your RESTful actions will live in your controllers. If you feel the need to create another method, your model is a good place for that!
 
-What “resources :contacts” does in your routes.rb file:
+What 'resources :contacts' does in your 'routes.rb' file:
 ```sh
 Wikipages::Application.routes.draw do
     match('contacts', {:via => :get, :to => 'contacts#index'})
@@ -601,21 +601,18 @@ Also, make sure that `protect_form_forgery with: :exception` is turned on in you
 
 **Mass assignment**
 
-Check out [Treehouse’s blog on Strong Parameters](http://blog.teamtreehouse.com/rails-4-strong-paremeters)
-
-There’s a [RailsCast video on this too](http://railscasts.com/episodes/26-hackers-love-mass-assignment-revised) if you have access to an account.
+* Check out [Treehouse’s blog on Strong Parameters](http://blog.teamtreehouse.com/rails-4-strong-paremeters)
+* There’s a [RailsCast video on this too](http://railscasts.com/episodes/26-hackers-love-mass-assignment-revised) if you have access to an account.
 
 **SQL injection**
-
-[Read all about it!](http://guides.rubyonrails.org/security.html#sql-injection)
+* [Read all about it!](http://guides.rubyonrails.org/security.html#sql-injection)
 
 **Ruby drop-down menu code**
 
-Ex. `<%= f.collection_select :station_id, Station.all, :id, :name %>`
+* Ex. `<%= f.collection_select :station_id, Station.all, :id, :name %>`
 
 **Ruby checkboxes**
-
-Here’s the [documentation](http://edgeapi.rubyonrails.org/classes/ActionView/Helpers/FormBuilder.html#method-i-collection_check_boxes)
+* Here’s the [documentation](http://edgeapi.rubyonrails.org/classes/ActionView/Helpers/FormBuilder.html#method-i-collection_check_boxes)
 
 ###Capybara
 This is a testing tool, similar to mocha and chai, that allows a developer to test the flow of their application. Here’s how you can get started with Capybara:
