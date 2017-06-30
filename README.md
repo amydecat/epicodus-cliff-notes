@@ -240,7 +240,7 @@ TDD and BDD, any difference?  Nope, not really.  Just make sure you are using te
 Writing tests, specifically specs within those tests, will help you design easy to understand interfaces before you get caught up in code.
 
 Resources for JavaScript:
-  - [Mocha spec framework](http://visionmedia.github.io/mocha/) download the zip and copy mocha.js and mocha.css into spec folder
+  - [Mocha spec framework](http://mochajs.org/) download the zip and copy mocha.js and mocha.css into spec folder
   - [Chai assertion library](http://chaijs.com/) download chai.js into spec folder
 
 Set up a page to run your specs, usually called the `spec-runner.html` file in your spec folder
